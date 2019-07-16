@@ -1,6 +1,10 @@
 language: generic
 
 sudo: required
+
+branches:
+  - master
+
 services:
   - docker
 
@@ -9,20 +13,20 @@ before_install:
 
 script:
   - docker run -e CI=true hungpmpercy/react-test npm test
-#
-# after_success:
-#   - docker build -t hungpmpercy/multi-client ./client
-#   - docker build -t hungpmpercy/multi-nginx ./nginx
-#   - docker build -t hungpmpercy/multi-server ./server
-#   - docker build -t hungpmpercy/multi-worker ./worker
-#   # Log in to the docker CLI
-#   # DOCKER_ID and DOCKER_PASSWORD should be defiend in travis website
-#   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-#   # Take those images and push them to docker hub
-#   - docker push hungpmpercy/multi-client
-#   - docker push hungpmpercy/multi-nginx
-#   - docker push hungpmpercy/multi-server
-#   - docker push hungpmpercy/multi-worker
+
+after_success:
+  - docker build -t hungpmpercy/multi-client ./client
+  - docker build -t hungpmpercy/multi-nginx ./nginx
+  - docker build -t hungpmpercy/multi-server ./server
+  - docker build -t hungpmpercy/multi-worker ./worker
+  # Log in to the docker CLI
+  # DOCKER_ID and DOCKER_PASSWORD should be defiend in travis website
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push hungpmpercy/multi-client
+  - docker push hungpmpercy/multi-nginx
+  - docker push hungpmpercy/multi-server
+  - docker push hungpmpercy/multi-worker
 #
 # deploy:
 #   provider: elasticbeanstalk
